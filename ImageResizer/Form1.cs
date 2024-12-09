@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Imazen.WebP;
@@ -87,6 +88,7 @@ namespace ImageResizer
 
                         // Save as JPG
                         resizedImage.Save(jpgOutputPath, ImageFormat.Jpeg);
+                        SaveImageAsJpg(resizedImage, jpgOutputPath);
 
                         // Save as WEBP using SimpleEncoder
                         SaveImageAsWebp(resizedImage, webpOutputPath);
@@ -130,14 +132,32 @@ namespace ImageResizer
 
         private void SaveImageAsWebp(Image image, string outputPath)
         {
-            Bitmap bitmap = new Bitmap(image);
-            using (var saveImageStream = File.Open(outputPath, FileMode.Create))
+            using (Bitmap bitmap = new Bitmap(image)) // Convert Image to Bitmap
             {
-                var encoder = new SimpleEncoder(); // Ensure this is part of your WebP library
-                encoder.Encode(bitmap, saveImageStream, 20); // Adjust quality (20) as needed
+                // Set the DPI to 300 for high-quality output
+                bitmap.SetResolution(300, 300);
+
+                using (var saveImageStream = File.Open(outputPath, FileMode.Create))
+                {
+                    var encoder = new SimpleEncoder(); // Ensure SimpleEncoder is available
+                    encoder.Encode(bitmap, saveImageStream, 100); // Adjust quality factor if needed
+                }
             }
         }
+        private void SaveImageAsJpg(Image image, string outputPath)
+        {
+            using (Bitmap bitmap = new Bitmap(image)) // Convert Image to Bitmap
+            {
+                // Set DPI to 300 for high-quality output
+                bitmap.SetResolution(300, 300);
 
+                // Save as JPG with quality settings
+                var encoderParameters = new EncoderParameters(1);
+                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L); // 100 = highest quality
+                var jpegCodec = ImageCodecInfo.GetImageDecoders().First(codec => codec.FormatID == ImageFormat.Jpeg.Guid);
+                bitmap.Save(outputPath, jpegCodec, encoderParameters);
+            }
+        }
         private void UpdateProgress(int completed, int total)
         {
             Invoke((Action)(() =>
