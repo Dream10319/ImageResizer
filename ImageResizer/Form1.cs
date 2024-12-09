@@ -16,6 +16,17 @@ namespace ImageResizer
         public Form1()
         {
             InitializeComponent();
+
+            // On form load, retrieve saved folder paths and populate textboxes
+            var paths = ConfigHelper.GetSavedFolderPaths();
+            if (!string.IsNullOrEmpty(paths.sourcePath))
+            {
+                sourceDir.Text = paths.sourcePath;  // Set source folder path to the textbox
+            }
+            if (!string.IsNullOrEmpty(paths.destinationPath))
+            {
+                desDir.Text = paths.destinationPath;  // Set destination folder path to the textbox
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -182,6 +193,17 @@ namespace ImageResizer
             };
 
             Task.Run(() => ProcessImages(sourceDir.Text, desDir.Text, sizes));
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Get the source and destination paths from the textboxes
+            string sourcePath = sourceDir.Text;  // Retrieve the source folder path
+            string destinationPath = desDir.Text;  // Retrieve the destination folder path
+
+            // Save the folder paths to app.config
+            ConfigHelper.SaveFolderPaths(sourcePath, destinationPath);
+            base.OnFormClosing(e);
         }
     }
 }
