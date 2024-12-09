@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Imazen.WebP;
 
 namespace ImageResizer
 {
@@ -65,13 +61,14 @@ namespace ImageResizer
                     string resolutionFolder = Path.Combine(destinationFolder, productCode, $"{width}x{height}");
                     Directory.CreateDirectory(resolutionFolder);
 
-                    string outputPath = Path.Combine(resolutionFolder, Path.GetFileName(file));
+                    string jpgOutputPath = Path.Combine(resolutionFolder, Path.GetFileName(file));
+                    string webpOutputPath = Path.Combine(resolutionFolder, Path.GetFileNameWithoutExtension(file) + ".webp");
 
-                    // Check for existing file
-                    if (File.Exists(outputPath))
+                    // Check for existing files and warn of overwrites
+                    if (File.Exists(jpgOutputPath) || File.Exists(webpOutputPath))
                     {
                         DialogResult result = MessageBox.Show(
-                            $"The file '{Path.GetFileName(file)}' already exists in the destination folder.\nDo you want to overwrite it?",
+                            $"One or both of the files '{Path.GetFileName(jpgOutputPath)}' or '{Path.GetFileName(webpOutputPath)}' already exist in the destination folder.\nDo you want to overwrite them?",
                             "File Exists",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning
@@ -79,15 +76,20 @@ namespace ImageResizer
 
                         if (result == DialogResult.No)
                         {
-                            continue; // Skip saving this file
+                            continue; // Skip saving these files
                         }
                     }
 
-                    // Resize and save the image
+                    // Resize and save the image as JPG and WEBP
                     using (var originalImage = Image.FromFile(file))
                     {
                         var resizedImage = ResizeImage(originalImage, width, height);
-                        resizedImage.Save(outputPath, ImageFormat.Jpeg);
+
+                        // Save as JPG
+                        resizedImage.Save(jpgOutputPath, ImageFormat.Jpeg);
+
+                        // Save as WEBP using SimpleEncoder
+                        SaveImageAsWebp(resizedImage, webpOutputPath);
                     }
                 }
 
@@ -119,6 +121,16 @@ namespace ImageResizer
             }
 
             return resized;
+        }
+
+        private void SaveImageAsWebp(Image image, string outputPath)
+        {
+            Bitmap bitmap = new Bitmap(image);
+            using (var saveImageStream = File.Open(outputPath, FileMode.Create))
+            {
+                var encoder = new SimpleEncoder(); // Ensure this is part of your WebP library
+                encoder.Encode(bitmap, saveImageStream, 20); // Adjust quality (20) as needed
+            }
         }
 
         private void UpdateProgress(int completed, int total)
