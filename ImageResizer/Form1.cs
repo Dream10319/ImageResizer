@@ -93,6 +93,11 @@ namespace ImageResizer
                     }
                 }
 
+                string processedFolder = Path.Combine(sourceFolder, "Processed", productCode);
+                Directory.CreateDirectory(processedFolder);
+                File.Move(file, Path.Combine(processedFolder, Path.GetFileName(file)));
+
+
                 processedCount++;
                 UpdateProgress(processedCount, files.Length);
             }
