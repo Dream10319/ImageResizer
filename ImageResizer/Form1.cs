@@ -70,7 +70,7 @@ namespace ImageResizer
 
                 foreach (var (width, height) in sizes)
                 {
-                    string resolutionFolder = Path.Combine(destinationFolder, productCode, $"{width}x{height}");
+                    string resolutionFolder = Path.Combine(destinationFolder, productCode, $"{width}");
                     Directory.CreateDirectory(resolutionFolder);
 
                     string jpgOutputPath = Path.Combine(resolutionFolder, Path.GetFileName(file));
