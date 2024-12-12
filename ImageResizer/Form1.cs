@@ -189,7 +189,8 @@ namespace ImageResizer
             {
                 ((int)width1.Value, (int)height1.Value),
                 ((int)width2.Value, (int)height2.Value),
-                ((int)width3.Value, (int)height3.Value)
+                ((int)width3.Value, (int)height3.Value),
+                ((int)width4.Value, (int)height4.Value)
             };
 
             Task.Run(() => ProcessImages(sourceDir.Text, desDir.Text, sizes));
