@@ -27,6 +27,10 @@ namespace ImageResizer
             {
                 desDir.Text = paths.destinationPath;  // Set destination folder path to the textbox
             }
+            if (!string.IsNullOrEmpty(paths.originalPath))
+            {
+                desDir.Text = paths.originalPath;  // Set destination folder path to the textbox
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -199,9 +203,10 @@ namespace ImageResizer
             // Get the source and destination paths from the textboxes
             string sourcePath = sourceDir.Text;  // Retrieve the source folder path
             string destinationPath = desDir.Text;  // Retrieve the destination folder path
+            string originalPath = oriDir.Text;
 
             // Save the folder paths to app.config
-            ConfigHelper.SaveFolderPaths(sourcePath, destinationPath);
+            ConfigHelper.SaveFolderPaths(sourcePath, destinationPath, originalPath);
             base.OnFormClosing(e);
         }
 
