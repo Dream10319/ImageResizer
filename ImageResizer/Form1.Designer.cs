@@ -59,6 +59,9 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnStart = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.oriDir = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -77,6 +80,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.oriDir);
+            this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.desDir);
@@ -86,7 +92,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(511, 188);
+            this.groupBox1.Size = new System.Drawing.Size(511, 237);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -97,7 +103,7 @@
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Location = new System.Drawing.Point(17, 80);
+            this.groupBox2.Location = new System.Drawing.Point(17, 124);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(480, 98);
             this.groupBox2.TabIndex = 6;
@@ -420,14 +426,14 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 214);
+            this.progressBar1.Location = new System.Drawing.Point(12, 263);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(511, 23);
             this.progressBar1.TabIndex = 1;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(337, 247);
+            this.btnStart.Location = new System.Drawing.Point(337, 298);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 2;
@@ -437,7 +443,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(448, 247);
+            this.button4.Location = new System.Drawing.Point(448, 298);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 3;
@@ -445,11 +451,38 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(60, 89);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(47, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "Originals";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(460, 88);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(37, 22);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "...";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // oriDir
+            // 
+            this.oriDir.Location = new System.Drawing.Point(113, 88);
+            this.oriDir.Name = "oriDir";
+            this.oriDir.ReadOnly = true;
+            this.oriDir.Size = new System.Drawing.Size(335, 20);
+            this.oriDir.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 282);
+            this.ClientSize = new System.Drawing.Size(535, 333);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.progressBar1);
@@ -515,6 +548,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown width4;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox oriDir;
+        private System.Windows.Forms.Label label11;
     }
 }
 

@@ -106,10 +106,8 @@ namespace ImageResizer
                     }
                 }
 
-                string processedFolder = Path.Combine(sourceFolder, "Processed", productCode);
-                Directory.CreateDirectory(processedFolder);
-                File.Move(file, Path.Combine(processedFolder, Path.GetFileName(file)));
-
+                Directory.CreateDirectory(oriDir.Text);
+                File.Move(file, Path.Combine(oriDir.Text, Path.GetFileName(file)));
 
                 processedCount++;
                 UpdateProgress(processedCount, files.Length);
@@ -151,7 +149,7 @@ namespace ImageResizer
                 using (var saveImageStream = File.Open(outputPath, FileMode.Create))
                 {
                     var encoder = new SimpleEncoder(); // Ensure SimpleEncoder is available
-                    encoder.Encode(bitmap, saveImageStream, 100); // Adjust quality factor if needed
+                    encoder.Encode(bitmap, saveImageStream, 90); // Adjust quality factor if needed
                 }
             }
         }
@@ -205,6 +203,17 @@ namespace ImageResizer
             // Save the folder paths to app.config
             ConfigHelper.SaveFolderPaths(sourcePath, destinationPath);
             base.OnFormClosing(e);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    oriDir.Text = folderDialog.SelectedPath;
+                }
+            }
         }
     }
 }
