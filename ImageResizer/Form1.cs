@@ -146,7 +146,7 @@ namespace ImageResizer
             using (Bitmap bitmap = new Bitmap(image)) // Convert Image to Bitmap
             {
                 // Set the DPI to 300 for high-quality output
-                bitmap.SetResolution(300, 300);
+                bitmap.SetResolution(96, 96);
 
                 using (var saveImageStream = File.Open(outputPath, FileMode.Create))
                 {
@@ -160,7 +160,7 @@ namespace ImageResizer
             using (Bitmap bitmap = new Bitmap(image)) // Convert Image to Bitmap
             {
                 // Set DPI to 300 for high-quality output
-                bitmap.SetResolution(300, 300);
+                bitmap.SetResolution(96, 96);
 
                 // Save as JPG with quality settings
                 var encoderParameters = new EncoderParameters(1);
