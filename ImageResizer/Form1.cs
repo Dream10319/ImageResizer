@@ -13,6 +13,7 @@ namespace ImageResizer
     public partial class Form1 : Form
     {
         private bool isCancelled = false;
+        bool isAll = false;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace ImageResizer
             }
             if (!string.IsNullOrEmpty(paths.originalPath))
             {
-                desDir.Text = paths.originalPath;  // Set destination folder path to the textbox
+                oriDir.Text = paths.originalPath;  // Set destination folder path to the textbox
             }
         }
 
@@ -81,10 +82,10 @@ namespace ImageResizer
                     string webpOutputPath = Path.Combine(resolutionFolder, Path.GetFileNameWithoutExtension(file) + ".webp");
 
                     // Check for existing files and warn of overwrites
-                    if (File.Exists(jpgOutputPath) || File.Exists(webpOutputPath))
+                    if ((File.Exists(jpgOutputPath) || File.Exists(webpOutputPath)) && !isAll)
                     {
                         DialogResult result = MessageBox.Show(
-                            $"One or both of the files '{Path.GetFileName(jpgOutputPath)}' or '{Path.GetFileName(webpOutputPath)}' already exist in the destination folder.\nDo you want to overwrite them?",
+                            $"One or both of the files '{Path.GetFileName(jpgOutputPath)}' or '{Path.GetFileName(webpOutputPath)}' already exist in the destination folder.\n Overwrite all?",
                             "File Exists",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning
@@ -93,6 +94,18 @@ namespace ImageResizer
                         if (result == DialogResult.No)
                         {
                             continue; // Skip saving these files
+                        }
+                        else if(result == DialogResult.Yes)
+                        {
+                            var confirmDialog = new ConfirmDialog();
+                            if (confirmDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                // Check the input text
+                                if (confirmDialog.confirmText.Text.Trim().Equals("YES", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    isAll = true;
+                                }
+                            }
                         }
                     }
 
@@ -111,6 +124,7 @@ namespace ImageResizer
                 }
 
                 Directory.CreateDirectory(oriDir.Text);
+                if(File.Exists(Path.Combine(oriDir.Text, Path.GetFileName(file)))) File.Delete(Path.Combine(oriDir.Text, Path.GetFileName(file)));
                 File.Move(file, Path.Combine(oriDir.Text, Path.GetFileName(file)));
 
                 processedCount++;
@@ -181,9 +195,9 @@ namespace ImageResizer
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(sourceDir.Text) || string.IsNullOrWhiteSpace(desDir.Text))
+            if (string.IsNullOrWhiteSpace(sourceDir.Text) || string.IsNullOrWhiteSpace(desDir.Text) || string.IsNullOrWhiteSpace(oriDir.Text))
             {
-                MessageBox.Show("Please select both source and destination folders.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select source and destination, original folders.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
