@@ -22,15 +22,30 @@ namespace ImageResizer
             var paths = ConfigHelper.GetSavedFolderPaths();
             if (!string.IsNullOrEmpty(paths.sourcePath))
             {
-                sourceDir.Text = paths.sourcePath;  // Set source folder path to the textbox
+                if(!Directory.Exists(sourceDir.Text))
+                {
+                    MessageBox.Show("Source Directory is not exist, Please select again.");
+                    sourceDir.Text = "";
+                }
+                else sourceDir.Text = paths.sourcePath;  // Set source folder path to the textbox
             }
             if (!string.IsNullOrEmpty(paths.destinationPath))
             {
-                desDir.Text = paths.destinationPath;  // Set destination folder path to the textbox
+                if (!Directory.Exists(desDir.Text))
+                {
+                    MessageBox.Show("Destination Directory is not exist, Please select again.");
+                    desDir.Text = "";
+                }
+                else desDir.Text = paths.destinationPath;  // Set destination folder path to the textbox
             }
             if (!string.IsNullOrEmpty(paths.originalPath))
             {
-                oriDir.Text = paths.originalPath;  // Set destination folder path to the textbox
+                if (!Directory.Exists(oriDir.Text))
+                {
+                    MessageBox.Show("Originals Directory is not exist, Please select again.");
+                    oriDir.Text = "";
+                }
+                else oriDir.Text = paths.originalPath;  // Set destination folder path to the textbox
             }
         }
 
