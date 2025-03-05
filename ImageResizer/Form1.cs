@@ -13,10 +13,13 @@ namespace ImageResizer
     public partial class Form1 : Form
     {
         private bool isCancelled = false;
+        public string logFileName;
         bool isAll = false;
         public Form1()
         {
             InitializeComponent();
+
+            logFileName = $"ImageResize_{DateTime.Now:yyMMdd_HHmm}.txt";
 
             // On form load, retrieve saved folder paths and populate textboxes
             var paths = ConfigHelper.GetSavedFolderPaths();
@@ -141,6 +144,8 @@ namespace ImageResizer
                 Directory.CreateDirectory(oriDir.Text);
                 if(File.Exists(Path.Combine(oriDir.Text, Path.GetFileName(file)))) File.Delete(Path.Combine(oriDir.Text, Path.GetFileName(file)));
                 File.Move(file, Path.Combine(oriDir.Text, Path.GetFileName(file)));
+
+                File.WriteAllText(logFileName, Environment.NewLine + file.ToString());
 
                 processedCount++;
                 UpdateProgress(processedCount, files.Length);
