@@ -145,7 +145,7 @@ namespace ImageResizer
                 if(File.Exists(Path.Combine(oriDir.Text, Path.GetFileName(file)))) File.Delete(Path.Combine(oriDir.Text, Path.GetFileName(file)));
                 File.Move(file, Path.Combine(oriDir.Text, Path.GetFileName(file)));
 
-                File.WriteAllText(logFileName, Environment.NewLine + file.ToString());
+                File.AppendAllText(logFileName, Environment.NewLine + Path.GetFileName(file));
 
                 processedCount++;
                 UpdateProgress(processedCount, files.Length);
